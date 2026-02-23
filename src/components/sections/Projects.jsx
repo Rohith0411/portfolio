@@ -23,11 +23,11 @@ const Projects = () => {
       ? projects
       : projects.filter((p) => p.category === activeCategory)
 
-  /* ---------------- RESPONSIVE CARDS PER VIEW ---------------- */
+  /* ---------------- Responsive Cards Per View ---------------- */
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 640) {
         setCardsPerView(1)
       } else if (window.innerWidth < 1024) {
         setCardsPerView(2)
@@ -41,7 +41,7 @@ const Projects = () => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  /* ---------------- CATEGORY CHANGE ---------------- */
+  /* ---------------- Category Change ---------------- */
 
   const handleCategoryChange = (category) => {
     setActiveCategory(category)
@@ -55,7 +55,7 @@ const Projects = () => {
     }
   }
 
-  /* ---------------- SCROLL FUNCTION ---------------- */
+  /* ---------------- Scroll Logic ---------------- */
 
   const scrollToIndex = (index) => {
     if (!scrollContainerRef.current) return
@@ -64,7 +64,7 @@ const Projects = () => {
     const firstCard = container.querySelector(".project-slide")
     if (!firstCard) return
 
-    const gap = 24 // gap-6 = 24px
+    const gap = 16 // gap-4 = 16px
     const cardWidth = firstCard.offsetWidth + gap
 
     container.scrollTo({
@@ -85,7 +85,7 @@ const Projects = () => {
     scrollToIndex(Math.max(currentIndex - 1, 0))
   }
 
-  /* ---------------- CATEGORY ICONS ---------------- */
+  /* ---------------- Category Icons ---------------- */
 
   const categoryIcons = {
     All: Target,
@@ -96,8 +96,8 @@ const Projects = () => {
 
   return (
     <section id="projects" className="relative py-20 bg-black overflow-hidden">
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-        
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* HEADER */}
         <FadeIn delay={0}>
           <div className="text-center mb-16">
@@ -156,13 +156,13 @@ const Projects = () => {
           <div className="relative">
             <div
               ref={scrollContainerRef}
-              className="overflow-x-auto scroll-smooth snap-x snap-mandatory px-4"
+              className="overflow-x-auto scroll-smooth snap-x snap-mandatory"
             >
-              <div className="flex gap-6">
+              <div className="flex gap-4">
                 {filteredProjects.map((project) => (
                   <div
                     key={project.id}
-                    className="project-slide w-full md:w-1/2 lg:w-1/3 shrink-0 snap-center"
+                    className="project-slide w-[90%] sm:w-[80%] md:w-1/2 lg:w-1/3 shrink-0 snap-start mx-auto"
                   >
                     <ProjectCard project={project} />
                   </div>
