@@ -18,12 +18,13 @@ const Projects = () => {
   const [cardsPerView, setCardsPerView] = useState(3)
   const scrollContainerRef = useRef(null)
 
-  const filterProjects =
+  const filteredProjects =
     activeCategory === "All"
       ? projects
-      : projects.filter((project) => project.category === activeCategory)
+      : projects.filter((p) => p.category === activeCategory)
 
-  // 🔥 Detect screen size
+  /* ---------------- RESPONSIVE CARDS PER VIEW ---------------- */
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -40,7 +41,8 @@ const Projects = () => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  // Reset when category changes
+  /* ---------------- CATEGORY CHANGE ---------------- */
+
   const handleCategoryChange = (category) => {
     setActiveCategory(category)
     setCurrentIndex(0)
@@ -53,11 +55,17 @@ const Projects = () => {
     }
   }
 
+  /* ---------------- SCROLL FUNCTION ---------------- */
+
   const scrollToIndex = (index) => {
     if (!scrollContainerRef.current) return
 
     const container = scrollContainerRef.current
-    const cardWidth = container.offsetWidth / cardsPerView
+    const firstCard = container.querySelector(".project-slide")
+    if (!firstCard) return
+
+    const gap = 24 // gap-6 = 24px
+    const cardWidth = firstCard.offsetWidth + gap
 
     container.scrollTo({
       left: cardWidth * index,
@@ -67,17 +75,17 @@ const Projects = () => {
     setCurrentIndex(index)
   }
 
-  const maxIndex = Math.max(0, filterProjects.length - cardsPerView)
+  const maxIndex = Math.max(0, filteredProjects.length - cardsPerView)
 
   const nextSlide = () => {
-    const newIndex = Math.min(currentIndex + 1, maxIndex)
-    scrollToIndex(newIndex)
+    scrollToIndex(Math.min(currentIndex + 1, maxIndex))
   }
 
   const prevSlide = () => {
-    const newIndex = Math.max(currentIndex - 1, 0)
-    scrollToIndex(newIndex)
+    scrollToIndex(Math.max(currentIndex - 1, 0))
   }
+
+  /* ---------------- CATEGORY ICONS ---------------- */
 
   const categoryIcons = {
     All: Target,
@@ -87,10 +95,10 @@ const Projects = () => {
   }
 
   return (
-    <section id="projects" className="relative py-15 bg-black overflow-hidden">
+    <section id="projects" className="relative py-20 bg-black overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* Header */}
+        {/* HEADER */}
         <FadeIn delay={0}>
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full mb-6">
@@ -110,7 +118,7 @@ const Projects = () => {
           </div>
         </FadeIn>
 
-        {/* Category Filter */}
+        {/* CATEGORY FILTER */}
         <FadeIn delay={100}>
           <div className="flex flex-wrap justify-center gap-4 mb-16">
             {categories.map((category) => {
@@ -143,18 +151,18 @@ const Projects = () => {
           </div>
         </FadeIn>
 
-        {/* Carousel */}
+        {/* CAROUSEL */}
         <FadeIn delay={200}>
           <div className="relative">
             <div
               ref={scrollContainerRef}
-              className="overflow-x-hidden scroll-smooth"
+              className="overflow-x-auto scroll-smooth snap-x snap-mandatory px-4"
             >
               <div className="flex gap-6">
-                {filterProjects.map((project) => (
+                {filteredProjects.map((project) => (
                   <div
                     key={project.id}
-                    className="w-full md:w-1/2 lg:w-1/3 shrink-0"
+                    className="project-slide w-full md:w-1/2 lg:w-1/3 shrink-0 snap-center"
                   >
                     <ProjectCard project={project} />
                   </div>
@@ -162,13 +170,13 @@ const Projects = () => {
               </div>
             </div>
 
-            {/* Arrows */}
-            {filterProjects.length > cardsPerView && (
+            {/* ARROWS */}
+            {filteredProjects.length > cardsPerView && (
               <>
                 <button
                   onClick={prevSlide}
                   disabled={currentIndex === 0}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 rounded-full disabled:opacity-40"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 backdrop-blur-md border border-green-500/40 rounded-full disabled:opacity-40"
                 >
                   <ChevronLeft className="w-5 h-5 text-white mx-auto" />
                 </button>
@@ -176,21 +184,21 @@ const Projects = () => {
                 <button
                   onClick={nextSlide}
                   disabled={currentIndex === maxIndex}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 rounded-full disabled:opacity-40"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 backdrop-blur-md border border-green-500/40 rounded-full disabled:opacity-40"
                 >
                   <ChevronRight className="w-5 h-5 text-white mx-auto" />
                 </button>
               </>
             )}
 
-            {/* Dots */}
-            {filterProjects.length > cardsPerView && (
+            {/* DOTS */}
+            {filteredProjects.length > cardsPerView && (
               <div className="flex justify-center gap-2 mt-8">
                 {Array.from({ length: maxIndex + 1 }).map((_, index) => (
                   <button
                     key={index}
                     onClick={() => scrollToIndex(index)}
-                    className={`rounded-full transition-all ${
+                    className={`transition-all duration-300 rounded-full ${
                       index === currentIndex
                         ? "bg-green-400 w-6 h-2"
                         : "bg-white/30 w-2 h-2"
