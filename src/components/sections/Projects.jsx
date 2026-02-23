@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { projects, categories } from "../../data/Projects"
 import {
   Briefcase,
@@ -15,12 +15,30 @@ import FadeIn from "../animations/FadeIn"
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState("All")
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [cardsPerView, setCardsPerView] = useState(3)
   const scrollContainerRef = useRef(null)
 
   const filterProjects =
     activeCategory === "All"
       ? projects
       : projects.filter((project) => project.category === activeCategory)
+
+  // 🔥 Detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setCardsPerView(1)
+      } else if (window.innerWidth < 1024) {
+        setCardsPerView(2)
+      } else {
+        setCardsPerView(3)
+      }
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   // Reset when category changes
   const handleCategoryChange = (category) => {
@@ -36,21 +54,22 @@ const Projects = () => {
   }
 
   const scrollToIndex = (index) => {
+    if (!scrollContainerRef.current) return
+
+    const container = scrollContainerRef.current
+    const cardWidth = container.offsetWidth / cardsPerView
+
+    container.scrollTo({
+      left: cardWidth * index,
+      behavior: "smooth",
+    })
+
     setCurrentIndex(index)
-
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current
-      const cardWidth = container.offsetWidth / 3
-
-      container.scrollTo({
-        left: cardWidth * index,
-        behavior: "smooth",
-      })
-    }
   }
 
+  const maxIndex = Math.max(0, filterProjects.length - cardsPerView)
+
   const nextSlide = () => {
-    const maxIndex = Math.max(0, filterProjects.length - 3)
     const newIndex = Math.min(currentIndex + 1, maxIndex)
     scrollToIndex(newIndex)
   }
@@ -60,7 +79,6 @@ const Projects = () => {
     scrollToIndex(newIndex)
   }
 
-  // Category Icons
   const categoryIcons = {
     All: Target,
     "Web Apps": Globe,
@@ -70,11 +88,8 @@ const Projects = () => {
 
   return (
     <section id="projects" className="relative py-15 bg-black overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-1/3 right-0 w-96 h-96 bg-green-500/20 blur-[140px] rounded-full" />
-      <div className="absolute bottom-1/3 left-0 w-96 h-96 bg-green-500/20 blur-[140px] rounded-full" />
-
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+        
         {/* Header */}
         <FadeIn delay={0}>
           <div className="text-center mb-16">
@@ -114,11 +129,10 @@ const Projects = () => {
                   <div
                     className={`absolute inset-0 rounded-full transition-all duration-300 ${
                       activeCategory === category
-                        ? "bg-green-500/20 border border-green-500/40 shadow-[0_0_20px_rgba(0,255,128,0.4)]"
+                        ? "bg-green-500/20 border border-green-500/40"
                         : "bg-white/5 border border-white/10"
                     }`}
                   />
-
                   <div className="relative flex items-center gap-2">
                     {Icon && <Icon className="w-4 h-4" />}
                     <span className="text-sm">{category}</span>
@@ -134,13 +148,13 @@ const Projects = () => {
           <div className="relative">
             <div
               ref={scrollContainerRef}
-              className="overflow-x-auto scroll-smooth snap-x snap-mandatory hide-scrollbar"
+              className="overflow-x-hidden scroll-smooth"
             >
-              <div className="flex gap-6 pb-4">
+              <div className="flex gap-6">
                 {filterProjects.map((project) => (
                   <div
                     key={project.id}
-                    className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 snap-start"
+                    className="w-full md:w-1/2 lg:w-1/3 shrink-0"
                   >
                     <ProjectCard project={project} />
                   </div>
@@ -148,40 +162,38 @@ const Projects = () => {
               </div>
             </div>
 
-            {/* Navigation Arrows */}
-            {filterProjects.length > 3 && (
+            {/* Arrows */}
+            {filterProjects.length > cardsPerView && (
               <>
                 <button
                   onClick={prevSlide}
                   disabled={currentIndex === 0}
-                  className="flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 lg:-translate-x-4 items-center justify-center w-12 h-12 bg-green-500/20 backdrop-blur-md border border-green-500/40 rounded-full hover:bg-green-500/30 shadow-[0_0_20px_rgba(0,255,128,0.3)] transition-all duration-300 disabled:opacity-40 z-10"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 rounded-full disabled:opacity-40"
                 >
-                  <ChevronLeft className="w-6 h-6 text-white" />
+                  <ChevronLeft className="w-5 h-5 text-white mx-auto" />
                 </button>
 
                 <button
                   onClick={nextSlide}
-                  disabled={currentIndex >= filterProjects.length - 3}
-                  className="flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 lg:translate-x-4 items-center justify-center w-12 h-12 bg-green-500/20 backdrop-blur-md border border-green-500/40 rounded-full hover:bg-green-500/30 shadow-[0_0_20px_rgba(0,255,128,0.3)] transition-all duration-300 disabled:opacity-40 z-10"
+                  disabled={currentIndex === maxIndex}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 rounded-full disabled:opacity-40"
                 >
-                  <ChevronRight className="w-6 h-6 text-white" />
+                  <ChevronRight className="w-5 h-5 text-white mx-auto" />
                 </button>
               </>
             )}
 
-            {/* Navigation Dots */}
-            {filterProjects.length > 3 && (
-              <div className="flex items-center justify-center gap-2 mt-10">
-                {Array.from({
-                  length: Math.max(0, filterProjects.length - 2),
-                }).map((_, index) => (
+            {/* Dots */}
+            {filterProjects.length > cardsPerView && (
+              <div className="flex justify-center gap-2 mt-8">
+                {Array.from({ length: maxIndex + 1 }).map((_, index) => (
                   <button
                     key={index}
                     onClick={() => scrollToIndex(index)}
-                    className={`transition-all duration-300 rounded-full ${
+                    className={`rounded-full transition-all ${
                       index === currentIndex
-                        ? "bg-green-400 w-6 h-2 shadow-[0_0_10px_rgba(0,255,128,0.8)]"
-                        : "bg-white/30 w-2 h-2 hover:bg-white/50"
+                        ? "bg-green-400 w-6 h-2"
+                        : "bg-white/30 w-2 h-2"
                     }`}
                   />
                 ))}
