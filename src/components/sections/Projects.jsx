@@ -153,62 +153,66 @@ const Projects = () => {
 
         {/* CAROUSEL */}
         <FadeIn delay={200}>
-          <div className="relative">
-            <div
-              ref={scrollContainerRef}
-              className="overflow-x-auto scroll-smooth snap-x snap-mandatory"
-            >
-              <div className="flex gap-4">
-                {filteredProjects.map((project) => (
-                  <div
-                    key={project.id}
-                    className="project-slide w-[90%] sm:w-[80%] md:w-1/2 lg:w-1/3 shrink-0 snap-start mx-auto"
-                  >
-                    <ProjectCard project={project} />
-                  </div>
-                ))}
-              </div>
-            </div>
+  <div className="relative">
 
-            {/* ARROWS */}
-            {filteredProjects.length > cardsPerView && (
-              <>
-                <button
-                  onClick={prevSlide}
-                  disabled={currentIndex === 0}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 backdrop-blur-md border border-green-500/40 rounded-full disabled:opacity-40"
-                >
-                  <ChevronLeft className="w-5 h-5 text-white mx-auto" />
-                </button>
+    <div
+      ref={scrollContainerRef}
+      className="overflow-x-auto scroll-smooth snap-x snap-mandatory px-4"
+    >
+      <div className="flex gap-4">
 
-                <button
-                  onClick={nextSlide}
-                  disabled={currentIndex === maxIndex}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 backdrop-blur-md border border-green-500/40 rounded-full disabled:opacity-40"
-                >
-                  <ChevronRight className="w-5 h-5 text-white mx-auto" />
-                </button>
-              </>
-            )}
-
-            {/* DOTS */}
-            {filteredProjects.length > cardsPerView && (
-              <div className="flex justify-center gap-2 mt-8">
-                {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => scrollToIndex(index)}
-                    className={`transition-all duration-300 rounded-full ${
-                      index === currentIndex
-                        ? "bg-green-400 w-6 h-2"
-                        : "bg-white/30 w-2 h-2"
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
+        {filteredProjects.map((project) => (
+          <div
+            key={project.id}
+            className="project-slide w-full md:w-1/2 lg:w-1/3 shrink-0 snap-center"
+          >
+            <ProjectCard project={project} />
           </div>
-        </FadeIn>
+        ))}
+
+      </div>
+    </div>
+
+    {/* ARROWS */}
+    {filteredProjects.length > cardsPerView && (
+      <>
+        <button
+          onClick={prevSlide}
+          disabled={currentIndex === 0}
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 backdrop-blur-md border border-green-500/40 rounded-full disabled:opacity-40"
+        >
+          <ChevronLeft className="w-5 h-5 text-white mx-auto" />
+        </button>
+
+        <button
+          onClick={nextSlide}
+          disabled={currentIndex === maxIndex}
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-green-500/20 backdrop-blur-md border border-green-500/40 rounded-full disabled:opacity-40"
+        >
+          <ChevronRight className="w-5 h-5 text-white mx-auto" />
+        </button>
+      </>
+    )}
+
+    {/* DOTS */}
+    {filteredProjects.length > cardsPerView && (
+      <div className="flex justify-center gap-2 mt-8">
+        {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => scrollToIndex(index)}
+            className={`transition-all duration-300 rounded-full ${
+              index === currentIndex
+                ? "bg-green-400 w-6 h-2"
+                : "bg-white/30 w-2 h-2"
+            }`}
+          />
+        ))}
+      </div>
+    )}
+
+  </div>
+</FadeIn>
       </div>
     </section>
   )
