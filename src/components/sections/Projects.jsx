@@ -64,7 +64,7 @@ const Projects = () => {
     const firstCard = container.querySelector(".project-slide")
     if (!firstCard) return
 
-    const gap = 16 // gap-4 = 16px
+    const gap = 16 
     const cardWidth = firstCard.offsetWidth + gap
 
     container.scrollTo({
