@@ -200,19 +200,12 @@ const Contact = () => {
                 </a>
 
                 <a
-                  href="#"
-                  className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-green-500/20 hover:shadow-lg hover:shadow-green-500/20 transition"
-                >
-                  <Twitter />
-                </a>
-
-                <a
-                  href="https://www.instagram.com/rohith_ar_04/"
+                  href="https://x.com/RohithAr04"
                   target="_blank"
                   rel="noreferrer"
                   className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-green-500/20 hover:shadow-lg hover:shadow-green-500/20 transition"
                 >
-                  <Instagram />
+                  <Twitter />
                 </a>
               </div>
             </div>

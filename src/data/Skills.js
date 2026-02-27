@@ -5,7 +5,8 @@ import {
   Server,
   Globe,
   Smartphone,
-  Rocket
+  Rocket,
+  Triangle
 } from "lucide-react";
 
 export const skills = [

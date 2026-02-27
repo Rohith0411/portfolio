@@ -35,7 +35,7 @@ const Skills = () => {
         <FadeIn>
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-light text-white mb-4">
-              Technical Skills
+              Tech Skills
             </h2>
             <p className="text-white/60">
               Technologies I use to build scalable modern applications.

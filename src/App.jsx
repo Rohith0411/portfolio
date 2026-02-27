@@ -12,15 +12,13 @@ const App = () => {
   return (
     <div className='min-h-screen bg-black'>
       <Navbar />
-
       <main>
         <Hero />
         <About />
         <Skills />
         <Projects />
         <Contact/>
-        <Footer/>
-        
+        <Footer/>      
       </main>
     </div>
   )

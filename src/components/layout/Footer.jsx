@@ -48,7 +48,6 @@ const Footer = () => {
           </div>
 
           {/* MIDDLE SECTION */}
-         {/* MIDDLE SECTION */}
 <div>
   <h3 className="text-lg font-semibold mb-6">
     Quick Links
@@ -135,7 +134,7 @@ const Footer = () => {
               </a>
 
               <a
-                href="https://twitter.com/"
+                href="https://x.com/RohithAr04"
                 target="_blank"
                 rel="noreferrer"
                 className="bg-white/5 border border-white/10 p-3 rounded-xl hover:bg-green-500/20 hover:border-green-500/40 transition"

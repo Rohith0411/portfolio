@@ -6,7 +6,7 @@ export const projects = [
   image: "/Images/Projects/AR Portfolio.png",
   category: "Full Stack",
   technologies: ["React", "Tailwind"],
-  githubUrl: "https://github.com/Rohith0411"
+  githubUrl: "https://github.com/Rohith0411/portfolio"
 }, 
   {
     id: 2,
