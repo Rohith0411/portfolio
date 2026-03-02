@@ -5,7 +5,8 @@ export const projects = [
   description: "Modern portfolio design",
   image: "/Images/Projects/AR Portfolio.png",
   category: "Full Stack",
-  technologies: ["React", "Tailwind"],
+  technologies: ["JavaScript","React", "Tailwind"],
+  demoUrl: "https://portfolio-ashy-pi-76.vercel.app/",
   githubUrl: "https://github.com/Rohith0411/portfolio"
 }, 
   {
@@ -15,16 +16,18 @@ export const projects = [
     image: "/Images/Projects/Todo List.png",
     category: "Web Apps",
     technologies: ["React", "HTML", "CSS", "JavaScript"],
-    githubUrl: "https://github.com/Rohith0411",
+    demoUrl: "https://rohith0411.github.io/Todos/",
+    githubUrl: "https://github.com/Rohith0411/Todos",
   },
   {
     id: 3,
-    title: "Blog Post",
-    description: "Blog UI design",
-    image: "/Images/Projects/Blog Posts.png",
+    title: "Gallery",
+    description: "Gallery UI design",
+    image: "/Images/Projects/ImageGallery.png",
     category: "UI Components",
     technologies: ["React", "HTML", "CSS", "JavaScript"],
-    githubUrl: "https://github.com/Rohith0411",
+    demoUrl: "https://rohith0411.github.io/Gallery/",
+    githubUrl: "http://github.com/Rohith0411/Gallery",
   },
   {
     id: 4,
@@ -33,8 +36,8 @@ export const projects = [
     image: "/Images/Projects/Weather API.png",
     category: "Web Apps",
     technologies: ["HTML", "CSS", "JavaScript"],
-    githubUrl:
-      "https://github.com/Rohith0411/projects/blob/main/Weather%20Api.html",
+    demoUrl: "https://rohith0411.github.io/Weatherapi/",
+    githubUrl:"https://github.com/Rohith0411/Weatherapi/",
   },
   {
   id: 5,
@@ -42,8 +45,9 @@ export const projects = [
   description: "Full Authentication Login Page",
   image: "/Images/Projects/Login Form.png",
   category: "Full Stack",
-  technologies: ["React", "Tailwind"],
-  githubUrl: "https://github.com/Rohith0411"
+  technologies: ["React", "Tailwind","DBJson"],
+  demoUrl: "https://rohith0411.github.io/loginForm/",
+  githubUrl: "https://github.com/Rohith0411/loginForm"
   },
    {
   id: 6,
@@ -52,7 +56,8 @@ export const projects = [
   image: "/Images/Projects/Expense Tracker.png",
   category: "UI Components",
   technologies: ["HTML", "CSS", "JavaScript","React","Tailwind"],
-  githubUrl: "https://github.com/Rohith0411"
+  demoUrl: "https://rohith0411.github.io/ExpenseTracker/",
+  githubUrl: "https://github.com/Rohith0411/ExpenseTracker"
 },
   
 
